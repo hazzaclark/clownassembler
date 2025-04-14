@@ -3811,7 +3811,7 @@ static void ProcessInstruction(SemanticState *state, StatementInstruction *instr
 									value = 0;
 
 								if (value > 8 || value < 1)
-									SemanticError(state, "Due to Big-endian byte order, MSB of Operand is greater than 8. Consider using bit shifts to handle remaining bits\n");
+									SemanticError(state, "Due to Big-endian byte order, MSB of Operand is greater than 8.  Consider using bit shifts to handle remaining bits\n");
 
 								machine_code |= (value & 7) << 9;
 
