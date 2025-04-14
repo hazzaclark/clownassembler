@@ -3811,7 +3811,7 @@ static void ProcessInstruction(SemanticState *state, StatementInstruction *instr
 									value = 0;
 
 								if (value > 8 || value < 1)
-									SemanticError(state, "The shift value must not be greater than 8 or lower than 1.");
+									SemanticError(state, "MSB of Operand is greater than 8, consider other bit shifts to handle remaining bits\n");
 
 								machine_code |= (value & 7) << 9;
 
