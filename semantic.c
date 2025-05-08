@@ -309,17 +309,17 @@ ATTRIBUTE_PRINTF(2, 3) static void SemanticWarning(SemanticState *state, const c
 
 ATTRIBUTE_PRINTF(2, 3) static void SemanticError(SemanticState *state, const char *fmt, ...)
 {
-	va_list args;
+    va_list args;
 
-	TextOutput_fputs("Error: ", state->error_callbacks);
+    TextOutput_fputs("Error: ", state->error_callbacks);
 
-	va_start(args, fmt);
-	TextOutput_vfprintf(state->error_callbacks, fmt, args);
-	va_end(args);
+    va_start(args, fmt);
+    TextOutput_vfprintf(state->error_callbacks, fmt, args);
+    va_end(args);
 
-	ErrorMessageCommon(state);
+    ErrorMessageCommon(state);
 
-	state->success = cc_false;
+    state->success = cc_false;
 }
 
 ATTRIBUTE_PRINTF(2, 3) static void InternalError(SemanticState *state, const char *fmt, ...)
@@ -3263,6 +3263,11 @@ static void ProcessInstruction(SemanticState *state, StatementInstruction *instr
 						break;
 
 					case OPCODE_LEA:
+					{
+						SemanticWarning(state, "Consider using $ to define as a Hex Value\n");
+						break;
+					}
+					
 					case OPCODE_CHK:
 					case OPCODE_DIVU:
 					case OPCODE_DIVS:
@@ -3811,7 +3816,7 @@ static void ProcessInstruction(SemanticState *state, StatementInstruction *instr
 									value = 0;
 
 								if (value > 8 || value < 1)
-									SemanticError(state, "Due to Big-endian byte order, MSB of Operand is greater than 8.  Consider using bit shifts to handle remaining bits\n");
+									SemanticError(state, "Due to Big-endian byte order, MSB of Operand is greater than 8. Consider using bit shifts to handle remaining bits\n");
 
 								machine_code |= (value & 7) << 9;
 
